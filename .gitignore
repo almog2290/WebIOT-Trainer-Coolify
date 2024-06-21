@@ -1,0 +1,33 @@
+## main ignore file
+.vscode
+createGitIgnore.sh
+
+## front - react
+# dependencies
+./webIOTReactFront/node_modules
+./webIOTReactFront/.pnp
+./webIOTReactFront/.pnp.js
+./webIOTReactFront/
+./webIOTReactFront/# testing
+./webIOTReactFront/coverage
+./webIOTReactFront/
+# production
+./webIOTReactFront/build
+./webIOTReactFront/
+# misc
+./webIOTReactFront/.DS_Store
+./webIOTReactFront/.env
+./webIOTReactFront/.env.local
+./webIOTReactFront/.env.development.local
+./webIOTReactFront/.env.test.local
+./webIOTReactFront/.env.production.local
+./webIOTReactFront/npm-debug.log*
+./webIOTReactFront/yarn-debug.log*
+./webIOTReactFront/yarn-error.log*
+./webIOTReactFront/.eslintcache
+
+## back - express
+./webIOTServerExpressJS/node_modules/
+./webIOTServerExpressJS/.vs/
+./webIOTServerExpressJS/.vscode/
+./webIOTServerExpressJS/.deployment

@@ -1,0 +1,19 @@
+FROM node:16
+
+## Create app directory
+WORKDIR /usr/src/api
+
+## Copy package.json and package-lock.json
+COPY ./package.json ./
+COPY ./package-lock.json ./
+
+## Install dependencies
+RUN npm install 
+
+## Copy all files
+COPY . .
+
+EXPOSE 5000
+
+CMD ["npm", "start"]
+
