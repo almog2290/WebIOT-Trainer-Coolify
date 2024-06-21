@@ -22,7 +22,7 @@ const options = {
   clientId: process.env.CLIENT_ID, 
   username: process.env.USERNAME, 
   password: process.env.PASSWORD, 
-  port: process.env.MQTTPORT,      
+  port: 15697,      
   keepalive: process.env.KEEPALIVE,  
 };
 
