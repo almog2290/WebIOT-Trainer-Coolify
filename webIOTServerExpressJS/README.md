@@ -22,9 +22,3 @@ CloudMQTT Site
 ```markdown
 https://www.cloudmqtt.com/
 ```
-
----
-Our frontend is developed using the reactJS platform in another project
-```markdown
-https://github.com/almog2290/webIOTReactFront
-```
