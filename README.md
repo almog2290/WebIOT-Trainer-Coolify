@@ -23,3 +23,22 @@ KneeTherapy is an innovative system designed for real-time monitoring and displa
 - **IoT Devices**: Basic utilizes various IoT devices for monitoring and controlling cooling systems.
 - **Coolify**: An essential tool for deploying and managing Dockerized applications with ease, enhancing the project's scalability and deployment efficiency.
 
+## Environment Variables Setup
+To properly configure the server, please set environment variables.
+
+#### For kneeTrainerAPI (Backend):
+```markdown
+BROKER_URL=mqtt://url.com
+CLIENT_ID=id_number
+USERNAME=user
+PASSWORD=1234
+KEEPALIVE=300
+TOPIC1=/sessionReport
+TOPIC2=/sessionLive
+```
+
+#### For kneeTrainerClient(Frontend):
+```markdown
+REACT_APP_API_URL=http://localhost:5000
+```
+

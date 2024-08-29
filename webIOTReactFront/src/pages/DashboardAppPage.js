@@ -79,7 +79,7 @@ export default function DashboardAppPage() {
         console.count("useEffectTrainStatus");
         if(trainStatusData === true)        
         {
-            fetch('/api/sensors/trainStatus', {
+            fetch(`${process.env.REACT_APP_API_URL}/api/sensors/trainStatus`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,11 +92,7 @@ export default function DashboardAppPage() {
 
             // get session live data from server any 500ms
             const id = setInterval(() => {
-                // console.count("Interval -> useEffectSessionLive");
-
-                // prevSessionLive,setSessionLive,setLabelStatus
                 fetchSessionLive(sessionLiveData,setSessionLiveData,setLabelStatus);
-
             }, 500);
 
             // store intervalId in the state so it can be accessed later

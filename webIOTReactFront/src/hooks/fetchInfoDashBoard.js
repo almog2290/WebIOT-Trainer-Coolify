@@ -7,7 +7,8 @@ export function fetchInfoScreen(setInformationBarData, setExLength, setExdate, s
     const fetchInformationBar = async () => {
         try {
             console.count("starting fetch information bar");
-            const response = await axios.get('http://iotback.coolify.local/api/sensors/information_bar');
+            console.log("App url",`${process.env.REACT_APP_API_URL}/api/sensors/information_bar`);
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/sensors/information_bar`);
             const infoData = response.data;
             if (infoData)
                 setInformationBarData(infoData);
@@ -21,7 +22,7 @@ export function fetchInfoScreen(setInformationBarData, setExLength, setExdate, s
     const fetchBest10 = async () => {
         try {
             console.count("starting fetch best10");
-            const response = await axios.get('http://iotback.coolify.local/api/sensors/best10');
+            const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/sensors/best10`);
             const best10Data = response.data;
             if (best10Data) {
                 // Access the data from the 'best10' object
@@ -49,7 +50,7 @@ export function fetchInfoScreen(setInformationBarData, setExLength, setExdate, s
 export const fetchSessionLive = async (prevSessionLive,setSessionLive,setLabelStatus) => {
     try {
         console.count("starting fetch session live");
-        const response = await axios.get('http://iotback.coolify.local/api/sensors/session_live');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/sensors/session_live`);
         const sessionLiveData = response.data;
         if (sessionLiveData) {
 
