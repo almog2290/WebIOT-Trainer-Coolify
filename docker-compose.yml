@@ -4,13 +4,12 @@ services:
   myexpressapp:
     container_name: kneeTrainerAPI
     restart: always
-    image: kneetrainer-api-server-dev:development
+    # image: kneetrainer-api-server-dev:development
     build:
       context: ./webIOTServerExpressJS/
       dockerfile: ./Dockerfile.dev
     stdin_open: true
     volumes:
-      - ./webIOTServerExpressJS:/usr/src/api
       -  api_node_modules:/usr/src/api/node_modules
       - ./database/:/usr/src/api/database/
     ports:
@@ -21,7 +20,7 @@ services:
   myreactapp:
     container_name: kneeTrainerClient
     restart: always
-    image: kneetrainer-app-client-dev:development
+    # image: kneetrainer-app-client-dev:development
     build:
       context: ./webIOTReactFront/
       dockerfile: ./Dockerfile.dev
@@ -31,7 +30,6 @@ services:
     networks:
       - webIOTtrainer
     volumes:
-      - ./webIOTReactFront:/usr/src/app
       - app_node_modules:/usr/src/app/node_modules
     depends_on:
       - myexpressapp

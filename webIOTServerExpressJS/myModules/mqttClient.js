@@ -16,6 +16,15 @@ const insertQuery = `
   VALUES (?,?,?,?)
 `;
 
+// Print the environment variables
+console.log('Broker URL: ', process.env.BROKER_URL);
+console.log('Client ID: ', process.env.CLIENT_ID);
+console.log('Username: ', process.env.USERNAME);
+console.log('Password: ', process.env.PASSWORD);
+console.log('Keepalive: ', process.env.KEEPALIVE);
+console.log('Topic1: ', process.env.TOPIC1);
+console.log('Topic2: ', process.env.TOPIC2);
+
 const brokerUrl = process.env.BROKER_URL; 
 const options = {
   
