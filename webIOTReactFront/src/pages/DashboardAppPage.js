@@ -19,23 +19,31 @@ import {
 } from '../sections/@dashboard/app';
 
 // fetch information hooks made 
-import { fetchSessionLive ,fetchInfoScreen} from '../hooks/fetchInfoDashBoard';
+import { fetchInfoDash , fetchSessionLive } from '../hooks/fetchInfoDash';
+import { useGetFetch } from '../hooks/useGetFetch';
 
 // settings
 import {bestSteps} from '../hooks/settingsBest10';
 
 export default function DashboardAppPage() {
     const theme = useTheme();
+    const { fetchData } = useGetFetch();
 
+    const [informationBarData, setInformationBarData] = useState({});
+    const [best10Data, setBest10Data] = useState({});
+    const [isPendingInfoBar, setIsPendingInfoBar] = useState(false);
+    const [errorInfoBar, setErrorInfoBar] = useState(null);
+    const [isPendingBest10, setIsPendingBest10] = useState(false);
+    const [errorBest10, setErrorBest10] = useState(null);
     // flag to update the information bar and best10
-    const [updateInfobar,setUpdateInfobar] = useState(true);
-    const [updateInfoBest10,setUpdateInfoBest10] = useState(true);
+    const [updateInfoPage,setUpdateInfoPage] = useState(true);
+
     // exlength, exdate, exstep are arrays of information of best10 , and informationBarData is an object of information bar
     const [ExLength,setExLength] = useState([]);
     const [Exdate,setExdate] = useState([]);
     const [Exstep,setExstep] = useState([]);
     const [shortestEx,setShortestEx] = useState(null);
-    const [informationBarData, setInformationBarData] = useState({});
+
     // trainStatusData is a boolean variable to send post request to server
     const [trainStatusData, setTrainStatusData] = useState(false);
     // sessionLiveData is an object of information of live session
@@ -49,31 +57,27 @@ export default function DashboardAppPage() {
     const [buttonColor, setButtonColor] = useState('primary');
     const [buttonIcon, setButtonIcon] = useState(<Iconify icon={'material-symbols:start-rounded'} width={32} />);
 
-    // fetch information bar and best10 hooks
-    const { fetchInformationBar, fetchBest10 } = fetchInfoScreen(setInformationBarData,
-         setExLength, setExdate, setExstep,setShortestEx);
+    const { fetchInformationBarData, fetchBest10Data } = fetchInfoDash(
+        fetchData, 
+        setInformationBarData, 
+        setIsPendingInfoBar, 
+        setErrorInfoBar, 
+        setBest10Data, 
+        setIsPendingBest10, 
+        setErrorBest10, 
+        isPendingBest10, 
+        best10Data, 
+        setExLength, 
+        setExdate, 
+        setExstep, 
+        setShortestEx
+    );
 
-     // get information bar data from server
     useEffect(() => {
-        console.count("useEffectInformationBar");
-        fetchInformationBar();
-        return () => {
-            setInformationBarData({});
-        }
-
-     },[updateInfobar]);
-
-    // get best10 data from server
-    useEffect(() => {
-        console.count("useEffectBest10");
-        fetchBest10();
-        return () => {
-            setExLength([]);
-            setExdate([]);
-            setExstep([]);
-        }
-        
-    },[updateInfoBest10]);
+        console.count("useEffectInfoPage");
+        fetchInformationBarData();
+        fetchBest10Data();
+    }, [updateInfoPage]);
 
     useEffect(() => {
         console.count("useEffectTrainStatus");
@@ -134,9 +138,7 @@ export default function DashboardAppPage() {
         setLabelStatus(null);
 
         // trigger update information bar and best10
-        setUpdateInfobar(!updateInfobar);
-        setUpdateInfoBest10(!updateInfoBest10);
-
+        setUpdateInfoPage(!updateInfoPage);
       }
     };
 
@@ -151,19 +153,38 @@ export default function DashboardAppPage() {
                 </Typography>
                 <Grid container spacing={3}>
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="All meetings" total={informationBarData.meetings} icon={'guidance:meeting-room'} />
+                        <AppWidgetSummary 
+                            title="All meetings" 
+                            total={informationBarData?.meetings ?? 0} 
+                            icon={'guidance:meeting-room'} 
+                        />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="Last exscrise length (min:sec)" total={informationBarData.lastExerciseLength} color="info" icon={'guidance:personal-training'} />
+                        <AppWidgetSummary 
+                            title="Last exscrise length (min:sec)" 
+                            total={informationBarData?.lastExerciseLength ?? 0} 
+                            color="info" 
+                            icon={'guidance:personal-training'} 
+                        />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="Correct steps taken" total={informationBarData.steps} color="warning" icon={'fluent-emoji-high-contrast:mechanical-leg'} />
+                        <AppWidgetSummary 
+                            title="Correct steps taken" 
+                            total={informationBarData?.steps ?? 0} 
+                            color="warning" 
+                            icon={'fluent-emoji-high-contrast:mechanical-leg'} 
+                        />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
-                        <AppWidgetSummary title="Level stage" total={informationBarData.levelStage} color="error" icon={'carbon:skill-level'} />
+                        <AppWidgetSummary 
+                            title="Level stage" 
+                            total={informationBarData?.levelStage ?? 0} 
+                            color="error" 
+                            icon={'carbon:skill-level'} 
+                        />
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                        {Exdate.length > 0 ? (
+                        {!isPendingBest10 && Exdate?.length > 0 ? (
                             <AppWebsiteVisits
                             title="Correct steps taken in treatment (TOP10)"
                             subheader={`Best record: ${bestSteps(Exstep)} steps`}
@@ -200,11 +221,14 @@ export default function DashboardAppPage() {
                             ]}
                             />
                         ) : (
-                            <p>Loading or no data available..</p>
+                            <>
+                                {isPendingBest10 ? <p>Loading..</p> : null}
+                                {errorBest10 ? <p>{errorBest10}</p> : null}
+                            </>
                         )}
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
-                        {ExLength.length > 0 ? (
+                        {!isPendingBest10 && ExLength?.length > 0 ? (
                             <AppConversionRates
                             title="Treatment time history (TOP10)"
                             subheader={`Shortest treatment is: ${shortestEx} minutes`}
@@ -222,15 +246,18 @@ export default function DashboardAppPage() {
                             ]}
                             />
                         ) : (
-                            <p>Loading or no data available..</p>
+                            <>
+                                {isPendingBest10 ? <p>Loading..</p> : null}
+                                {errorBest10 ? <p>{errorBest10}</p> : null}
+                            </>
                         )}
                     </Grid>
                     <Grid item xs={12} md={6} lg={6}>
                         <AppCurrentVisits
                         title="Current Steps Progress"
                         chartData={[
-                            { label: 'Correct Steps', value: informationBarData.steps },
-                            { label: 'Failed Steps', value: informationBarData.meetings * 5 - informationBarData.steps },
+                            { label: 'Correct Steps', value: informationBarData?.steps ?? 0},
+                            { label: 'Failed Steps', value: (informationBarData?.meetings * 5 - informationBarData?.steps) ?? 0},
                         ]}
                         chartColors={[
                             theme.palette.primary.main,
@@ -304,5 +331,7 @@ export default function DashboardAppPage() {
         </>
     );
 }
+
+
 
 
