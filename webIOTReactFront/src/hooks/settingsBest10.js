@@ -5,7 +5,7 @@ export function fixLenghtFormat(exLengthBest10) {
 
     // Spliting the time by ':' to remove hours 
     for (let i = 0; i < exLenghtFromServer.length; i += 1) {
-        const [hours, minutes, seconds] = exLenghtFromServer[i].split(':');
+        const [, minutes, seconds] = exLenghtFromServer[i].split(':');
         // Remove leading zero from minutes if it exists
         ExLength[i] = `${parseInt(minutes, 10)}:${seconds}`.replace(' AM', '');;
     }

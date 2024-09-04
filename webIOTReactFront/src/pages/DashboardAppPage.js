@@ -155,14 +155,14 @@ export default function DashboardAppPage() {
                     <Grid item xs={12} sm={6} md={3}>
                         <AppWidgetSummary 
                             title="All meetings" 
-                            total={informationBarData?.meetings ?? 0} 
+                            total={informationBarData?.meetings ?? null} 
                             icon={'guidance:meeting-room'} 
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <AppWidgetSummary 
                             title="Last exscrise length (min:sec)" 
-                            total={informationBarData?.lastExerciseLength ?? 0} 
+                            total={informationBarData?.lastExerciseLength ?? null} 
                             color="info" 
                             icon={'guidance:personal-training'} 
                         />
@@ -170,7 +170,7 @@ export default function DashboardAppPage() {
                     <Grid item xs={12} sm={6} md={3}>
                         <AppWidgetSummary 
                             title="Correct steps taken" 
-                            total={informationBarData?.steps ?? 0} 
+                            total={informationBarData?.steps ?? null} 
                             color="warning" 
                             icon={'fluent-emoji-high-contrast:mechanical-leg'} 
                         />
@@ -178,11 +178,17 @@ export default function DashboardAppPage() {
                     <Grid item xs={12} sm={6} md={3}>
                         <AppWidgetSummary 
                             title="Level stage" 
-                            total={informationBarData?.levelStage ?? 0} 
+                            total={informationBarData?.levelStage ?? null} 
                             color="error" 
                             icon={'carbon:skill-level'} 
                         />
                     </Grid>
+                    {!isPendingInfoBar && errorInfoBar ? 
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <>
+                            <p>{errorInfoBar} </p>
+                        </>
+                    </Grid> : null}                    
                     <Grid item xs={12} md={6} lg={6}>
                         {!isPendingBest10 && Exdate?.length > 0 ? (
                             <AppWebsiteVisits
