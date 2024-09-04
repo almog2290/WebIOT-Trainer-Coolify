@@ -18,12 +18,12 @@ export function fetchInfoDash(
     setShortestEx
 ) {
     const fetchInformationBarData = async () => {
-        await fetchData(`${process.env.REACT_APP_API_URL}/api/sensors/information_bar`, setInformationBarData, setIsPendingInfoBar, setErrorInfoBar);
+        await fetchData(`/api/sensors/information_bar`, setInformationBarData, setIsPendingInfoBar, setErrorInfoBar);
     };
 
     const fetchBest10Data = async () => {
 
-        await fetchData(`${process.env.REACT_APP_API_URL}/api/sensors/best10`, setBest10Data, setIsPendingBest10, setErrorBest10);
+        await fetchData(`/api/sensors/best10`, setBest10Data, setIsPendingBest10, setErrorBest10);
 
         if (!isPendingBest10 && best10Data) {
 
@@ -47,7 +47,7 @@ export function fetchInfoDash(
 export const fetchSessionLive = async (prevSessionLive,setSessionLive,setLabelStatus) => {
     try {
         console.count("starting fetch session live");
-        const response = await axios.get(`${process.env.REACT_APP_API_URL}/api/sensors/session_live`);
+        const response = await axios.get(`/api/sensors/session_live`);
         const sessionLiveData = response.data;
         if (sessionLiveData) {
 

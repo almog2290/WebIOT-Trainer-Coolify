@@ -83,7 +83,7 @@ export default function DashboardAppPage() {
         console.count("useEffectTrainStatus");
         if(trainStatusData === true)        
         {
-            fetch(`${process.env.REACT_APP_API_URL}/api/sensors/trainStatus`, {
+            fetch(`/api/sensors/trainStatus`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
