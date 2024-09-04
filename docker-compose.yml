@@ -32,7 +32,6 @@ services:
     networks:
       - webIOTtrainer
     volumes:
-      # - app_node_modules:/usr/src/app/node_modules
       - ./caddy_data:/data
       - ./caddy_config:/config
     depends_on:
@@ -44,4 +43,3 @@ networks:
 
 volumes:
   api_node_modules:
-  app_node_modules:
